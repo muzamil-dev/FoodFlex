@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import '../Auth.css';  // Import the Auth styling
 
 const Signup = () => {
   const [formData, setFormData] = useState({ username: '', email: '', password: '' });
@@ -17,7 +18,6 @@ const Signup = () => {
     e.preventDefault();
     axios.post('http://localhost:8000/users/register/', formData)
       .then((response) => {
-        // Redirect to login after successful signup
         navigate('/login');
       })
       .catch((error) => {
@@ -26,7 +26,7 @@ const Signup = () => {
   };
 
   return (
-    <div>
+    <div className="auth-container">
       <h2>Sign Up</h2>
       <form onSubmit={handleSubmit}>
         <input 
@@ -52,6 +52,9 @@ const Signup = () => {
         />
         <button type="submit">Sign Up</button>
       </form>
+      <div className="auth-link">
+        <p>Already have an account? <a href="/login">Login</a></p>
+      </div>
     </div>
   );
 };
