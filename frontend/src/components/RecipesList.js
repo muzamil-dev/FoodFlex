@@ -19,7 +19,14 @@ const RecipeList = () => {
       <h1>Recipes</h1>
       <ul>
         {recipes.map(recipe => (
-          <li key={recipe.id}>{recipe.name}</li>
+          <li key={recipe.id}>
+            <h2>{recipe.name}</h2>
+            <ul>
+              {recipe.ingredients.map((ingredient, index) => (
+                <li key={index}>{ingredient}</li>
+              ))}
+            </ul>
+          </li>
         ))}
       </ul>
     </div>

@@ -11,9 +11,14 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 import os
+from pathlib import Path
 import environ
 env = environ.Env()
-environ.Env.read_env('.env')
+BASE_DIR = Path(__file__).resolve().parent.parent
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+import mongoengine
+
 
 # SECRET_KEY = env('DJANGO_SECRET_KEY')
 
@@ -29,7 +34,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--#!ru&nrc%m80nadd6+drsf$txj(=pm3l-e5&1xhli82zuun89'
+SECRET_KEY = env('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -46,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'api',
     'corsheaders',
     'rest_framework',
@@ -97,13 +103,17 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'NAME': env('MONGO_DB_NAME'),
-        'CLIENT': {
-            'host': f"mongodb+srv://{env('MONGO_USER')}:{env('MONGO_PASSWORD')}@{env('MONGO_HOST')}/{env('MONGO_DB_NAME')}?retryWrites=true&w=majority",
-        }
+        'ENGINE': 'django.db.backends.sqlite3',  # or another SQL engine
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+mongoengine.connect(
+    db='FoodFlix',
+    username='adminDB',
+    password=env('MONGO_PASSWORD'),
+    host= env('MONGO_URI'),
+)
 
 # DATABASES = {
 #     'default': {
