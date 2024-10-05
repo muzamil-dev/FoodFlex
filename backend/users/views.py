@@ -2,22 +2,17 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 # Comment out or remove the import of Django's User model to avoid conflicts
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework import serializers
 from rest_framework.views import APIView
 from .models import User  # Import your custom MongoEngine User model
 from mongoengine.errors import NotUniqueError
-<<<<<<< HEAD
-# Remove JWT-related imports
-# from rest_framework_simplejwt.tokens import RefreshToken
-# from rest_framework.permissions import IsAuthenticated
-=======
 from django.contrib.auth.hashers import check_password
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserDietSerializer
+from mongoengine.errors import ValidationError as MongoValidationError
 
->>>>>>> 76b4c28ffa34b0a9e6587c7b00fb42070dc2bed2
 
 # Serializer for the MongoEngine User model
 class UserSerializer(serializers.Serializer):
@@ -43,9 +38,6 @@ class UserSerializer(serializers.Serializer):
 # API view for user registration
 @api_view(['POST'])
 def register(request):
-    """
-    POST /users/register/ to create a new user.
-    """
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.save()
@@ -61,9 +53,6 @@ def register(request):
 # API view for user login
 @api_view(['POST'])
 def login(request):
-    """
-    POST /users/login/ to authenticate a user.
-    """
     email = request.data.get('email')
     password = request.data.get('password')
 
@@ -85,7 +74,6 @@ def login(request):
         else:
             return Response({'detail': 'Invalid credentials.'}, status=status.HTTP_401_UNAUTHORIZED)
     except User.DoesNotExist:
-<<<<<<< HEAD
         return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
 
 # Serializer for updating user preferences
@@ -142,7 +130,6 @@ class UpdatePreferencesView(APIView):
             user.save()
             return Response({"message": "Preferences updated successfully."}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-=======
         return Response({'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
     
     # View to get the user's diet information
@@ -179,4 +166,3 @@ def update_user_diet(request):
 
     except MongoValidationError:
         return Response({'detail': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
->>>>>>> 76b4c28ffa34b0a9e6587c7b00fb42070dc2bed2

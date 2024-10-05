@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from rest_framework import serializers
 from .models import User
 from django.contrib.auth.hashers import make_password
@@ -38,16 +37,16 @@ class UserSerializer(serializers.Serializer):
     def validate(self, data):
         # Any other custom validation logic can go here
         return data
-=======
+    
 import re
-from rest_framework import serializers
-from .models import User
+
 
 class UserDietSerializer(serializers.Serializer):
     diet = serializers.ChoiceField(choices=User.DIET_CHOICES)
 
     def update(self, instance, validated_data):
+        instance.religious_restrictions = validated_data.get('religious_restrictions', instance.religious_restrictions)
         instance.diet = validated_data.get('diet', instance.diet)
+        instance.allergies = validated_data.get('allergies', instance.allergies)
         instance.save()
         return instance
->>>>>>> 76b4c28ffa34b0a9e6587c7b00fb42070dc2bed2
