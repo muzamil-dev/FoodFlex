@@ -12,28 +12,8 @@ from django.contrib.auth.hashers import check_password
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserDietSerializer
 from mongoengine.errors import ValidationError as MongoValidationError
+from bson.objectid import ObjectId, InvalidId
 
-
-# Serializer for the MongoEngine User model
-class UserSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=255)
-    email = serializers.EmailField()
-    password = serializers.CharField(write_only=True)
-
-    def create(self, validated_data):
-        # Hash the password before saving
-        validated_data['password'] = make_password(validated_data['password'])
-        try:
-            # Create a new user with validated data
-            user = User(**validated_data)
-            user.save()  # Raises NotUniqueError if email is already used
-            return user
-        except NotUniqueError:
-            raise serializers.ValidationError({"email": "A user with this email already exists."})
-
-    def validate(self, data):
-        # Additional custom validation logic can go here
-        return data
 
 # API view for user registration
 @api_view(['POST'])
@@ -166,3 +146,47 @@ def update_user_diet(request):
 
     except MongoValidationError:
         return Response({'detail': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
+    
+
+# serializers.py
+
+class UserPreferencesSerializer(serializers.Serializer):
+    userId = serializers.CharField(source='id', read_only=True)
+    religious_restrictions = serializers.CharField()
+    diet = serializers.CharField()
+    allergies = serializers.ListField(child=serializers.CharField())
+
+    def to_representation(self, instance):
+        return {
+            'userId': str(instance.id),
+            'religious_restrictions': instance.religious_restrictions,
+            'diet': instance.diet,
+            'allergies': instance.allergies,
+        }
+
+
+class GetUserPreferencesView(APIView):
+    """
+    GET /users/preferences/<user_id>/ to retrieve user preferences by user ID.
+    """
+    # Uncomment the following lines to require authentication
+    # authentication_classes = [SessionAuthentication, BasicAuthentication]
+    # permission_classes = [IsAuthenticated]
+    
+    def get(self, request, user_id):
+        try:
+            # Validate and convert user_id to ObjectId
+            ObjectId(user_id)  # Raises InvalidId if not a valid ObjectId
+        except InvalidId:
+            return Response({'detail': 'Invalid user ID.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            # Retrieve the user by user_id
+            user = User.objects.get(id=user_id)
+            serializer = UserPreferencesSerializer(user)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            # Optionally log the exception
+            return Response({'detail': 'An error occurred.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

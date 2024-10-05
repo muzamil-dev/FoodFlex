@@ -17,3 +17,4 @@ class RecipeSerializer(serializers.Serializer):
         instance.instructions = validated_data.get('instructions', instance.instructions)
         instance.save()
         return instance
+
