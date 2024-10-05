@@ -7,6 +7,9 @@ from rest_framework import serializers
 from .models import User  # Import your custom MongoEngine model
 from mongoengine.errors import ValidationError as MongoValidationError
 from mongoengine.errors import NotUniqueError
+from django.contrib.auth.hashers import check_password
+from rest_framework_simplejwt.tokens import RefreshToken
+
 
 # Serializer for the MongoEngine User model
 class UserSerializer(serializers.Serializer):
@@ -39,3 +42,33 @@ def register(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def login(request):
+    """
+    POST /users/login/ to authenticate a user and return JWT token.
+    """
+    email = request.data.get('email')
+    password = request.data.get('password')
+
+    try:
+        # Find the user by email
+        user = User.objects.get(email=email)
+
+        # Check the password
+        if check_password(password, user.password):
+            # If the password is correct, generate JWT tokens
+            refresh = RefreshToken.for_user(user)
+            
+            return Response({
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+                'username': user.username,
+                'email': user.email,
+            }, status=status.HTTP_200_OK)
+        else:
+            return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    except User.DoesNotExist:
+        return Response({'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
