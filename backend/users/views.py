@@ -9,6 +9,7 @@ from mongoengine.errors import ValidationError as MongoValidationError
 from mongoengine.errors import NotUniqueError
 from django.contrib.auth.hashers import check_password
 from rest_framework_simplejwt.tokens import RefreshToken
+from .serializers import UserDietSerializer
 
 
 # Serializer for the MongoEngine User model
@@ -72,3 +73,38 @@ def login(request):
 
     except User.DoesNotExist:
         return Response({'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+    
+    # View to get the user's diet information
+@api_view(['GET'])
+def get_user_diet(request):
+    if request.method == 'GET':
+        #user = request.user
+        user = User.objects.first() #for testing
+        serializer = UserDietSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    # View to update the user's diet information
+@api_view(['PUT'])
+def update_user_diet(request):
+    user_id = request.data.get('userId')  # Get the user ID from the request data
+    new_diet = request.data.get('diet')  # Get the new diet from the request data
+
+    # Check if user_id and diet are provided
+    if not user_id or not new_diet:
+        return Response({'detail': 'User ID and diet are required'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        # Find the user by user_id
+        user = User.objects.get(id=user_id)
+
+        # Update the diet
+        user.diet = new_diet  # Assuming `diet` is a field in your User model
+        user.save()  # Save the changes to the database
+
+        return Response({'detail': 'Diet updated successfully', 'diet': user.diet}, status=status.HTTP_200_OK)
+
+    except User.DoesNotExist:
+        return Response({'detail': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    except MongoValidationError:
+        return Response({'detail': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
