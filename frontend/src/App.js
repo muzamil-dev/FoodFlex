@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import RecipeList from './components/RecipeList';
+import RecipeList from './components/RecipesList';
 
 
 function App() {
