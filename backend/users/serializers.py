@@ -42,7 +42,7 @@ import re
 
 
 class UserDietSerializer(serializers.Serializer):
-    diet = serializers.ChoiceField(choices=User.DIET_CHOICES)
+    diet = serializers.ChoiceField(choices=User.DIET_OPTIONS)
 
     def update(self, instance, validated_data):
         instance.religious_restrictions = validated_data.get('religious_restrictions', instance.religious_restrictions)
