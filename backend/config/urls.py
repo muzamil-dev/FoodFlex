@@ -20,5 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),  # API for user management
     path('api/', include('api.urls')),  # Include the API URLs
+    path('recipes/', include('recipes.urls')),  # Include the API URLs
 
 ]

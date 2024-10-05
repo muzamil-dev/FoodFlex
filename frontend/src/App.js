@@ -1,14 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
-import RecipeList from './components/RecipesList';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import RecipesList from './components/RecipesList';  // Assuming you already have this
 
-
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <RecipeList />
-    </div>
+    <Router>
+      <div>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/recipes" element={<RecipesList />} /> {/* Recipes list page */}
+          <Route path="/" element={<Login />} /> {/* Default route redirects to login */}
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
