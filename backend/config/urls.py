@@ -22,4 +22,5 @@ urlpatterns = [
     path('users/', include('users.urls')),  # API for user management
     path('api/', include('api.urls')),  # Include the API URLs
     path('recipes/', include('recipes.urls')),  # Include the recipes URLs
+    path('chatbot/', include('chatbot.urls')),  # Include the API URLs
 ]
