@@ -1,5 +1,6 @@
 # FoodFlex (or FlexEat) - AI-Powered Recipe Customizer for Dietary Restrictions
 
+// initial ideas
 ## Overview
 
 **FoodFlex** is an AI-powered web app designed to help users customize recipes based on their dietary restrictions, allergies, and preferences. This application is perfect for individuals who need to modify recipes (e.g., for vegan, vegetarian, gluten-free, halal, kosher, or allergen-free diets). The app leverages AI to analyze and modify recipes, ensuring they match user-defined dietary profiles.
