@@ -73,6 +73,25 @@ class AddFavoriteRecipeSerializer(serializers.Serializer):
         return value
     
 
+class RemoveFavoriteRecipeSerializer(serializers.Serializer):
+    user_id = serializers.CharField(required=True)
+    recipe_id = serializers.CharField(required=True)
+
+    def validate_user_id(self, value):
+        if not ObjectId.is_valid(value):
+            raise serializers.ValidationError("Invalid user ID format.")
+        if not User.objects(id=value).first():
+            raise serializers.ValidationError("User does not exist.")
+        return value
+
+    def validate_recipe_id(self, value):
+        if not ObjectId.is_valid(value):
+            raise serializers.ValidationError("Invalid recipe ID format.")
+        if not Recipe.objects(id=value).first():
+            raise serializers.ValidationError("Recipe does not exist.")
+        return value
+    
+
 class RecipeSerializer(serializers.Serializer):
     id = serializers.CharField()
     title = serializers.CharField()

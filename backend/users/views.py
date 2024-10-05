@@ -15,6 +15,7 @@ from .serializers import UserSerializer, AddFavoriteRecipeSerializer
 from mongoengine.errors import ValidationError as MongoValidationError
 from bson.objectid import ObjectId, InvalidId
 from .serializers import RecipeSerializer
+from .serializers import RemoveFavoriteRecipeSerializer
 
 
 # API view for user registration
@@ -215,6 +216,35 @@ class AddFavoriteRecipeView(APIView):
             user.save()
             
             return Response({'message': 'Recipe added to favorites successfully.'}, status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class RemoveFavoriteRecipeView(APIView):
+    """
+    POST /users/remove_favorite_recipe/ to remove a recipe from the user's favorite_recipes.
+    Expects 'user_id' and 'recipe_id' in the request data.
+    """
+    
+    def post(self, request):
+        serializer = RemoveFavoriteRecipeSerializer(data=request.data)
+        if serializer.is_valid():
+            user_id = serializer.validated_data['user_id']
+            recipe_id = serializer.validated_data['recipe_id']
+            
+            user = User.objects(id=user_id).first()
+            recipe = Recipe.objects(id=recipe_id).first()
+            
+            if not user or not recipe:
+                return Response({'detail': 'User or Recipe not found.'}, status=status.HTTP_404_NOT_FOUND)
+            
+            if recipe not in user.favorite_recipes:
+                return Response({'detail': 'Recipe not in favorites.'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            user.favorite_recipes.remove(recipe)
+            user.save()
+            
+            return Response({'message': 'Recipe removed from favorites successfully.'}, status=status.HTTP_200_OK)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
