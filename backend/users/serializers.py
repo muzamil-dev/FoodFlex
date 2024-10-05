@@ -71,3 +71,11 @@ class AddFavoriteRecipeSerializer(serializers.Serializer):
         if not Recipe.objects(id=value).first():
             raise serializers.ValidationError("Recipe does not exist.")
         return value
+    
+
+class RecipeSerializer(serializers.Serializer):
+    id = serializers.CharField()
+    title = serializers.CharField()
+    description = serializers.CharField(allow_blank=True, required=False)
+    ingredients = serializers.CharField()
+    instructions = serializers.CharField()

@@ -14,6 +14,7 @@ from .serializers import UserDietSerializer
 from .serializers import UserSerializer, AddFavoriteRecipeSerializer
 from mongoengine.errors import ValidationError as MongoValidationError
 from bson.objectid import ObjectId, InvalidId
+from .serializers import RecipeSerializer
 
 
 # API view for user registration
@@ -216,3 +217,24 @@ class AddFavoriteRecipeView(APIView):
             return Response({'message': 'Recipe added to favorites successfully.'}, status=status.HTTP_200_OK)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+class UserFavoriteRecipesView(APIView):
+    """
+    GET /users/favorite_recipes/<user_id>/ to retrieve a user's favorite recipes.
+    """
+    
+    def get(self, request, user_id):
+        # Validate the user_id format
+        if not ObjectId.is_valid(user_id):
+            return Response({'detail': 'Invalid user ID.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            # Retrieve the user
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+        
+        # Serialize the favorite recipes
+        serializer = RecipeSerializer(user.favorite_recipes, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
