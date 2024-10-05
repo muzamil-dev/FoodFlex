@@ -1,7 +1,9 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, Recipe
 from django.contrib.auth.hashers import make_password
 from mongoengine.errors import NotUniqueError
+from bson.objectid import ObjectId
+
 
 class UserSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=255)
@@ -50,3 +52,22 @@ class UserDietSerializer(serializers.Serializer):
         instance.allergies = validated_data.get('allergies', instance.allergies)
         instance.save()
         return instance
+    
+# add recipe id to user's favorite recipes
+class AddFavoriteRecipeSerializer(serializers.Serializer):
+    user_id = serializers.CharField(required=True)
+    recipe_id = serializers.CharField(required=True)
+
+    def validate_user_id(self, value):
+        if not ObjectId.is_valid(value):
+            raise serializers.ValidationError("Invalid user ID format.")
+        if not User.objects(id=value).first():
+            raise serializers.ValidationError("User does not exist.")
+        return value
+
+    def validate_recipe_id(self, value):
+        if not ObjectId.is_valid(value):
+            raise serializers.ValidationError("Invalid recipe ID format.")
+        if not Recipe.objects(id=value).first():
+            raise serializers.ValidationError("Recipe does not exist.")
+        return value
