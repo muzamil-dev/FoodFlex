@@ -10,9 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import os
 import environ
 env = environ.Env()
-environ.Env.read_env()
+environ.Env.read_env('.env')
 
 # SECRET_KEY = env('DJANGO_SECRET_KEY')
 
@@ -91,9 +92,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': env('MONGO_DB_NAME'),  # Loads MONGO_DB_NAME from .env
+        'NAME': env('MONGO_DB_NAME'),
         'CLIENT': {
-            'host': f"mongodb+srv://{env('MONGO_USER')}:{env('MONGO_PASSWORD')}@{env('MONGO_HOST')}/?retryWrites=true&w=majority",
+            'host': f"mongodb+srv://{env('MONGO_USER')}:{env('MONGO_PASSWORD')}@{env('MONGO_HOST')}/{env('MONGO_DB_NAME')}?retryWrites=true&w=majority",
         }
     }
 }
