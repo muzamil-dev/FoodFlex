@@ -34,7 +34,6 @@ class User(me.Document):
         'Shellfish',
         'Gluten',
         'Sesame',
-        'None',
         # Add other allergies as needed
     ]
 
@@ -52,7 +51,7 @@ class User(me.Document):
     )
     allergies = me.ListField(
         me.StringField(choices=ALLERGY_OPTIONS),
-        default=['None']
+        default=[]
     )
 
 
