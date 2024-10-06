@@ -7,6 +7,11 @@ const Sidebar = () => {
     <div className="sidebar">
       <ul>
         <li>
+        <li>
+          <NavLink to="/profile" activeClassName="active">
+            Profile
+          </NavLink>
+        </li>
           <NavLink to="/chatbot" activeClassName="active">
             ChatBot
           </NavLink>
@@ -24,11 +29,6 @@ const Sidebar = () => {
         <li>
           <NavLink to="/items" activeClassName="active">
             Items
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/profile" activeClassName="active">
-            Profile
           </NavLink>
         </li>
       </ul>
