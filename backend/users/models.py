@@ -12,8 +12,8 @@ class User(me.Document):
         'Halal',
         'Kosher',
         'Hindu Vegetarian',
-        # Add other restrictions as needed
     ]
+    
     DIET_OPTIONS = [
         'None',
         'Vegetarian',
@@ -21,8 +21,20 @@ class User(me.Document):
         'Paleo',
         'Keto',
         'Gluten-Free',
-        # Add other diets as needed
+        'Pescatarian',
+        'Lacto-Vegetarian',
+        'Ovo-Vegetarian',
+        'Lacto-Ovo-Vegetarian',
+        'Whole30',
+        'Low-Carb',
+        'Mediterranean',
+        'Diabetic-Friendly',
+        'Low-FODMAP',
+        'DASH',
+        'Low-Sodium',
+        'High-Protein',
     ]
+    
     ALLERGY_OPTIONS = [
         'Peanuts',
         'Tree Nuts',
@@ -34,7 +46,17 @@ class User(me.Document):
         'Shellfish',
         'Gluten',
         'Sesame',
-        # Add other allergies as needed
+        'Mustard',
+        'Corn',
+        'Lupin',
+        'Mollusks',
+        'Sulphites',
+        'Celery',
+        'Fruits',
+        'Legumes',
+        'Meat',
+        'Dairy',
+        'Nightshades',
     ]
 
     RELIGIOUS_RESTRICTIONS_CHOICES = [(option, option) for option in RELIGIOUS_RESTRICTIONS_OPTIONS]

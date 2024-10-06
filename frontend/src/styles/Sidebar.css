@@ -12,18 +12,18 @@
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
     overflow-y: auto;
     display: inline;
-  }
-  
-  .sidebar ul {
+}
+
+.sidebar ul {
     list-style-type: none;
     padding: 0;
-  }
-  
-  .sidebar ul li {
+}
+
+.sidebar ul li {
     margin: 15px 0;
-  }
-  
-  .sidebar ul li a {
+}
+
+.sidebar ul li a {
     color: #ecf0f1;
     text-decoration: none;
     font-size: 18px;
@@ -32,35 +32,39 @@
     border-radius: 5px;
     display: block;
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-  }
-  
-  .sidebar ul li a:hover {
+}
+
+.sidebar ul li a.active {
+    text-decoration: underline;
+    background-color: #34495e; /* Optional: Change the background color for active state */
+}
+
+.sidebar ul li a:hover {
     background-color: #1abc9c;
     color: #fff;
-  }
-  
-  /* Responsive Styles */
-  @media (max-width: 768px) {
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
     .sidebar {
-      position: relative;
-      width: 100%;
-      height: auto;
-      padding: 10px;
-      box-shadow: none;
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding: 10px;
+        box-shadow: none;
     }
-  
+
     .sidebar ul {
-      display: flex;
-      justify-content: space-around;
+        display: flex;
+        justify-content: space-around;
     }
-  
+
     .sidebar ul li {
-      margin: 0;
+        margin: 0;
     }
-  
+
     .sidebar ul li a {
-      font-size: 16px;
-      padding: 10px;
+        font-size: 16px;
+        padding: 10px;
     }
-  }
-  
+}

@@ -4,6 +4,8 @@ import axios from 'axios';
 import '../styles/Profile.css'; // Ensure this path is correct
 
 const Profile = () => {
+  // Replace this hardcoded userId with the correct one
+  const userId = '67014926037825ea54eb0baa'; // Use your actual user ID here
   const [profile, setProfile] = useState({
     username: '',
     email: '',
@@ -22,6 +24,17 @@ const Profile = () => {
     'Shellfish',
     'Gluten',
     'Sesame',
+    'Mustard',
+    'Corn',
+    'Lupin',
+    'Mollusks',
+    'Sulphites',
+    'Celery',
+    'Fruits',
+    'Legumes',
+    'Meat',
+    'Dairy',
+    'Nightshades',
   ]);
   const [religiousOptions] = useState([
     'None',
@@ -37,7 +50,18 @@ const Profile = () => {
     'Paleo',
     'Keto',
     'Gluten-Free',
-    // Add other options as needed
+    'Pescatarian',
+    'Lacto-Vegetarian',
+    'Ovo-Vegetarian',
+    'Lacto-Ovo-Vegetarian',
+    'Whole30',
+    'Low-Carb',
+    'Mediterranean',
+    'Diabetic-Friendly',
+    'Low-FODMAP',
+    'DASH',
+    'Low-Sodium',
+    'High-Protein',
   ]);
   const [isLoading, setIsLoading] = useState(true);
   const [successMessage, setSuccessMessage] = useState('');
@@ -47,12 +71,8 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const token = localStorage.getItem('token'); // Adjust if using a different storage method
-        const response = await axios.get('/api/profile/', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        // Fetch user preferences using the endpoint
+        const response = await axios.get(`http://127.0.0.1:8000/users/preferences/${userId}/`);
         setProfile(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -63,7 +83,7 @@ const Profile = () => {
     };
 
     fetchProfile();
-  }, []);
+  }, [userId]);
 
   // Handle form input changes
   const handleChange = (e) => {
@@ -90,25 +110,21 @@ const Profile = () => {
     }
   };
 
-  // Handle form submission
+  // Handle form submission to update user preferences
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSuccessMessage('');
     setErrorMessage('');
 
     try {
-      const token = localStorage.getItem('token'); // Adjust if using a different storage method
+      // Update user preferences using the endpoint
       await axios.put(
-        '/api/profile/',
+        `http://127.0.0.1:8000/users/preferences/`,
         {
+          userId, // Include userId in the request body
           religious_restrictions: profile.religious_restrictions,
           diet: profile.diet,
           allergies: profile.allergies,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         }
       );
       setSuccessMessage('Profile updated successfully!');
@@ -128,14 +144,6 @@ const Profile = () => {
       {successMessage && <div className="success-message">{successMessage}</div>}
       {errorMessage && <div className="error-message">{errorMessage}</div>}
       <form onSubmit={handleSubmit} className="profile-form">
-        <div className="form-group">
-          <label>Username:</label>
-          <input type="text" value={profile.username} disabled />
-        </div>
-        <div className="form-group">
-          <label>Email:</label>
-          <input type="email" value={profile.email} disabled />
-        </div>
         <div className="form-group">
           <label>Religious Restrictions:</label>
           <select
