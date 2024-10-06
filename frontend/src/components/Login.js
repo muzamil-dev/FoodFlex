@@ -23,10 +23,9 @@ const Login = () => {
 
     try {
       const response = await axios.post('http://localhost:8000/users/login/', formData);
-      //localStorage.setItem('token', response.data.token);
       localStorage.setItem('userId', response.data.userId);
-    console.log('userId saved to localStorage:', response.data.userId);  // Debug log
-    
+      console.log('userId saved to localStorage:', response.data.userId);  // Debug log
+
       navigate('/recipes');
     } catch (error) {
       console.error('Error logging in:', error);
@@ -40,6 +39,7 @@ const Login = () => {
 
   return (
     <div className="auth-container">
+      <div className="logo">FoodFlix</div> {/* FoodFlix Title/Logo */}
       <h2>Login</h2>
       {error && <div className="error-message">{error}</div>} {/* Display error message */}
       <form onSubmit={handleSubmit}>

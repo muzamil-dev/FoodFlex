@@ -1,19 +1,17 @@
-/* Auth.css */
+/* Existing CSS here */
 
-/* Importing Poppins Font (Ensure this is included in your main index.html or imported globally) */
-/* If not already imported, you can uncomment the following lines */
-
-/* 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-*/
-
-body {
-    margin: 0;
+/* Logo Styling */
+.logo {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #27ae60; /* Matches the button color for brand consistency */
+    text-align: center;
+    margin-bottom: 30px;
     font-family: 'Poppins', sans-serif;
-    background-color: #f4f4f9;
+    letter-spacing: 1.5px;
 }
 
-/* Container for the authentication forms */
+/* Auth Container and Input Styling Updates */
 .auth-container {
     max-width: 400px;
     margin: 80px auto;
@@ -130,5 +128,9 @@ body {
 
     .auth-container .auth-link {
         font-size: 13px;
+    }
+
+    .logo {
+        font-size: 2.5rem;
     }
 }
