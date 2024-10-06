@@ -55,6 +55,9 @@ INSTALLED_APPS = [
     'api',
     'corsheaders',
     'users',
+    'recipes',
+    'chatbot',
+    'items',
 ]
 
 # Authentication settings

@@ -1,11 +1,13 @@
 import mongoengine as me
 from recipes.models import Recipe
+from mongoengine.fields import ListField
 
 class User(me.Document):
     username = me.StringField(required=True, unique=True)
     email = me.EmailField(required=True, unique=True)
     password = me.StringField(required=True)
     favorite_recipes = me.ListField(me.ReferenceField('Recipe'))
+    item_ids = ListField()
 
     RELIGIOUS_RESTRICTIONS_OPTIONS = [
         'None',
