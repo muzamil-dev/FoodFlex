@@ -6,13 +6,16 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework import serializers
 from rest_framework.views import APIView
-from .models import User  # Import your custom MongoEngine User model
+from .models import User, Recipe  # Import your custom MongoEngine User model
 from mongoengine.errors import NotUniqueError
 from django.contrib.auth.hashers import check_password
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import UserDietSerializer, UserSerializer
+from .serializers import UserDietSerializer
+from .serializers import UserSerializer, AddFavoriteRecipeSerializer
 from mongoengine.errors import ValidationError as MongoValidationError
 from bson.objectid import ObjectId, InvalidId
+from .serializers import RecipeSerializer
+from .serializers import RemoveFavoriteRecipeSerializer
 
 
 # API view for user registration
@@ -190,3 +193,78 @@ class GetUserPreferencesView(APIView):
         except Exception as e:
             # Optionally log the exception
             return Response({'detail': 'An error occurred.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+class AddFavoriteRecipeView(APIView):
+    """
+    POST /users/add_favorite_recipe/ to add a recipe to the user's favorite_recipes.
+    Expects 'user_id' and 'recipe_id' in the request data.
+    """
+    
+    def post(self, request):
+        serializer = AddFavoriteRecipeSerializer(data=request.data)
+        if serializer.is_valid():
+            user_id = serializer.validated_data['user_id']
+            recipe_id = serializer.validated_data['recipe_id']
+            
+            user = User.objects(id=user_id).first()
+            recipe = Recipe.objects(id=recipe_id).first()
+            
+            if recipe in user.favorite_recipes:
+                return Response({'detail': 'Recipe already in favorites.'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            user.favorite_recipes.append(recipe)
+            user.save()
+            
+            return Response({'message': 'Recipe added to favorites successfully.'}, status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class RemoveFavoriteRecipeView(APIView):
+    """
+    POST /users/remove_favorite_recipe/ to remove a recipe from the user's favorite_recipes.
+    Expects 'user_id' and 'recipe_id' in the request data.
+    """
+    
+    def post(self, request):
+        serializer = RemoveFavoriteRecipeSerializer(data=request.data)
+        if serializer.is_valid():
+            user_id = serializer.validated_data['user_id']
+            recipe_id = serializer.validated_data['recipe_id']
+            
+            user = User.objects(id=user_id).first()
+            recipe = Recipe.objects(id=recipe_id).first()
+            
+            if not user or not recipe:
+                return Response({'detail': 'User or Recipe not found.'}, status=status.HTTP_404_NOT_FOUND)
+            
+            if recipe not in user.favorite_recipes:
+                return Response({'detail': 'Recipe not in favorites.'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            user.favorite_recipes.remove(recipe)
+            user.save()
+            
+            return Response({'message': 'Recipe removed from favorites successfully.'}, status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+class UserFavoriteRecipesView(APIView):
+    """
+    GET /users/favorite_recipes/<user_id>/ to retrieve a user's favorite recipes.
+    """
+    
+    def get(self, request, user_id):
+        # Validate the user_id format
+        if not ObjectId.is_valid(user_id):
+            return Response({'detail': 'Invalid user ID.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            # Retrieve the user
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+        
+        # Serialize the favorite recipes
+        serializer = RecipeSerializer(user.favorite_recipes, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
