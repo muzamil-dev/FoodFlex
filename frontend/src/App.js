@@ -7,6 +7,7 @@ import ChatBot from './components/chatBot';
 import CheckBot from './components/CheckBot';
 import Items from './components/Items';
 import MainLayout from './components/MainLayout';  // Import the layout
+import Profile from './components/profile';  // Import the profile component
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/chatbot" element={<MainLayout><ChatBot /></MainLayout>} />
         <Route path="/chatbot" element={<MainLayout><ChatBot /></MainLayout>} />
         <Route path="/items" element={<MainLayout><Items /></MainLayout>} />
+        <Route path="/profile" element={<MainLayout><Profile /></MainLayout>} />
       </Routes>
     </Router>
   );
