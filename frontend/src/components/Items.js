@@ -14,7 +14,6 @@ const Items = () => {
   return (
     <div className="items-container">
       <h1>Items Page</h1>
-      <p>This is where the list of items will go.</p>
       
       {/* Grid container for the items */}
       <div className="items-grid">

@@ -17,11 +17,6 @@ const Sidebar = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/checkbot" activeClassName="active">
-            CheckBot
-          </NavLink>
-        </li>
-        <li>
           <NavLink to="/recipes" activeClassName="active">
             Recipes
           </NavLink>

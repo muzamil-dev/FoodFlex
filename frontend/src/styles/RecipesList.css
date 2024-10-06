@@ -4,6 +4,12 @@
   padding: 20px;
 }
 
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0 !important; /* Removes left margin */
+  }
+}
+
 /* Recipe card container */
 .recipe-card {
   border: 1px solid #e0e0e0;
@@ -12,6 +18,10 @@
   background-color: #f4f4f9;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hashbox{
+  height: 26vh !important;
 }
 
 /* Hover effect for recipe cards */
@@ -25,6 +35,15 @@
   font-size: 1.5rem;
   margin-bottom: 15px;
   color: #333;
+}
+
+.custbtn{
+  /* center the button */
+  display: block;
+  margin: 0 auto;
+  margin-top: 10px;
+  width: 50% !important;
+  margin-bottom: 10px;
 }
 
 /* Recipe text (description, ingredients, instructions) */
