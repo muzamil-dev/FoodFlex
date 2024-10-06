@@ -13,11 +13,24 @@ const ChatBot = () => {
     const newMessages = [...messages, { sender: 'user', text: message }];
     setMessages(newMessages);
     setLoading(true);
-
+  
     try {
+      // Check if userId is available
+      const userId = localStorage.getItem('userId');
+      if (!userId) {
+        throw new Error('User ID not found. Please login again.');
+      }
+  
       // Send user message to backend API
-      const response = await axios.post('http://localhost:8000/chatbot/chat_with_ai/', { message });
-
+      const response = await axios.post('http://localhost:8000/chatbot/chat_with_ai/', {
+        message: userMessage,
+        userId: userId
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+  
       // Append the chatbot's response to the chat
       const botResponse = response.data.reply;
       setMessages([...newMessages, { sender: 'bot', text: botResponse }]);
@@ -27,7 +40,8 @@ const ChatBot = () => {
     } finally {
       setLoading(false);
     }
-  };
+  };  
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
