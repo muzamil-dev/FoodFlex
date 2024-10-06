@@ -1,18 +1,40 @@
 /* Auth.css */
+
+/* Importing Poppins Font (Ensure this is included in your main index.html or imported globally) */
+/* If not already imported, you can uncomment the following lines */
+
+/* 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+*/
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f9;
+}
+
+/* Container for the authentication forms */
 .auth-container {
     max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    margin: 80px auto;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
 }
 
 .auth-container h2 {
     text-align: center;
-    margin-bottom: 20px;
-    color: #333;
+    margin-bottom: 25px;
+    color: #2c3e50;
+    font-size: 2rem;
+    font-weight: 600;
 }
 
 .auth-container form {
@@ -21,38 +43,92 @@
 }
 
 .auth-container input {
-    margin-bottom: 15px;
-    padding: 12px;
+    margin-bottom: 20px;
+    padding: 14px;
     font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 1px solid #bdc3c7;
+    border-radius: 8px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-container input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+    outline: none;
 }
 
 .auth-container button {
-    padding: 12px;
+    padding: 14px;
     font-size: 16px;
-    background-color: #007bff;
+    background-color: #27ae60; /* Green color to match the theme */
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-weight: 600;
 }
 
 .auth-container button:hover {
-    background-color: #0056b3;
+    background-color: #219150;
 }
 
 .auth-container .auth-link {
     text-align: center;
-    margin-top: 10px;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #34495e;
 }
 
 .auth-container .auth-link a {
     text-decoration: none;
-    color: #007bff;
+    color: #27ae60;
+    font-weight: 600;
+    transition: color 0.3s ease;
 }
 
 .auth-container .auth-link a:hover {
-    text-decoration: underline;
+    color: #219150;
+}
+
+/* Error and Success Messages */
+.auth-container .error-message,
+.auth-container .success-message {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.auth-container .error-message {
+    background-color: #e74c3c;
+    color: #ffffff;
+}
+
+.auth-container .success-message {
+    background-color: #2ecc71;
+    color: #ffffff;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .auth-container {
+        margin: 40px 20px;
+        padding: 20px;
+    }
+
+    .auth-container h2 {
+        font-size: 1.75rem;
+    }
+
+    .auth-container input,
+    .auth-container button {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .auth-container .auth-link {
+        font-size: 13px;
+    }
 }
