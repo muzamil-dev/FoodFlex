@@ -16,7 +16,7 @@
 }
 
 .chat-box {
-  max-height: 400px;
+  max-height: 760px;
   overflow-y: auto;
   padding-bottom: 10px;
 }
