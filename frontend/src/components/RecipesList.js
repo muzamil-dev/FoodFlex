@@ -12,8 +12,8 @@ const RecipesList = () => {
   const [error, setError] = useState(null);
 
   // Hardcoded user ID
-  const userId = '6701394b0a532741992776cf';
-
+  const userId = localStorage.getItem('userId');
+  
   useEffect(() => {
     const fetchFavoriteRecipes = async () => {
       try {

@@ -5,7 +5,7 @@ import '../styles/Profile.css'; // Ensure this path is correct
 
 const Profile = () => {
   // Replace this hardcoded userId with the correct one
-  const userId = '67014926037825ea54eb0baa'; // Use your actual user ID here
+  const userId = localStorage.getItem('userId');  // Use your actual user ID here
   const [profile, setProfile] = useState({
     username: '',
     email: '',
@@ -72,6 +72,7 @@ const Profile = () => {
     const fetchProfile = async () => {
       try {
         // Fetch user preferences using the endpoint
+        const userId = localStorage.getItem('userId');
         const response = await axios.get(`http://127.0.0.1:8000/users/preferences/${userId}/`);
         setProfile(response.data);
         setIsLoading(false);
@@ -145,7 +146,7 @@ const Profile = () => {
       {errorMessage && <div className="error-message">{errorMessage}</div>}
       <form onSubmit={handleSubmit} className="profile-form">
         <div className="form-group">
-          <label>Religious Restrictions:</label>
+          <label>Religious Preferences:</label>
           <select
             name="religious_restrictions"
             value={profile.religious_restrictions}
