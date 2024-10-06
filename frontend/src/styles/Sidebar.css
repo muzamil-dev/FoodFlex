@@ -1,0 +1,73 @@
+/* HomePage.css */
+
+/* Sidebar container */
+.sidebar {
+    width: 250px;
+    height: 100vh;  /* Full height */
+    background-color: #2c3e50; /* Dark background color */
+    padding: 20px;
+    position: fixed; /* Stay fixed on the left side */
+    top: 0;
+    left: 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Sidebar list */
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Sidebar list items */
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+/* Sidebar links */
+.sidebar ul li a {
+    color: #ecf0f1; /* Light text color */
+    text-decoration: none; /* Remove underline */
+    font-size: 18px;
+    font-weight: 500;
+    padding: 10px 15px;
+    border-radius: 5px;
+    display: block;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out; /* Smooth hover transition */
+}
+
+/* Sidebar link hover effect */
+.sidebar ul li a:hover {
+    background-color: #1abc9c; /* Change background on hover */
+    color: #fff; /* White text on hover */
+}
+
+/* Active link styling */
+.sidebar ul li a.active {
+    background-color: #16a085;
+    color: #fff;
+}
+
+/* Sidebar Bottom */
+.sidebar ul li a.logout {
+    background-color: #e74c3c; /* Red color for logout */
+    color: #fff;
+}
+
+/* Hover effect for logout */
+.sidebar ul li a.logout:hover {
+    background-color: #c0392b; /* Darker red on hover */
+}
+
+/* Media query for responsive design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .sidebar ul li a {
+        font-size: 16px;
+    }
+}

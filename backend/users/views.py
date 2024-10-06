@@ -10,7 +10,7 @@ from .models import User  # Import your custom MongoEngine User model
 from mongoengine.errors import NotUniqueError
 from django.contrib.auth.hashers import check_password
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import UserDietSerializer
+from .serializers import UserDietSerializer, UserSerializer
 from mongoengine.errors import ValidationError as MongoValidationError
 from bson.objectid import ObjectId, InvalidId
 
