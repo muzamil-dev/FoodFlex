@@ -1,73 +1,66 @@
-/* HomePage.css */
+/* Sidebar.css */
 
-/* Sidebar container */
+/* Desktop Styles */
 .sidebar {
-    width: 250px;
-    height: 100vh;  /* Full height */
-    background-color: #2c3e50; /* Dark background color */
+    width: 200px;
+    height: 100vh;
+    background-color: #2c3e50;
     padding: 20px;
-    position: fixed; /* Stay fixed on the left side */
+    position: fixed;
     top: 0;
     left: 0;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-/* Sidebar list */
-.sidebar ul {
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    display: inline;
+  }
+  
+  .sidebar ul {
     list-style-type: none;
     padding: 0;
-}
-
-/* Sidebar list items */
-.sidebar ul li {
+  }
+  
+  .sidebar ul li {
     margin: 15px 0;
-}
-
-/* Sidebar links */
-.sidebar ul li a {
-    color: #ecf0f1; /* Light text color */
-    text-decoration: none; /* Remove underline */
+  }
+  
+  .sidebar ul li a {
+    color: #ecf0f1;
+    text-decoration: none;
     font-size: 18px;
     font-weight: 500;
     padding: 10px 15px;
     border-radius: 5px;
     display: block;
-    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out; /* Smooth hover transition */
-}
-
-/* Sidebar link hover effect */
-.sidebar ul li a:hover {
-    background-color: #1abc9c; /* Change background on hover */
-    color: #fff; /* White text on hover */
-}
-
-/* Active link styling */
-.sidebar ul li a.active {
-    background-color: #16a085;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  }
+  
+  .sidebar ul li a:hover {
+    background-color: #1abc9c;
     color: #fff;
-}
-
-/* Sidebar Bottom */
-.sidebar ul li a.logout {
-    background-color: #e74c3c; /* Red color for logout */
-    color: #fff;
-}
-
-/* Hover effect for logout */
-.sidebar ul li a.logout:hover {
-    background-color: #c0392b; /* Darker red on hover */
-}
-
-/* Media query for responsive design */
-@media (max-width: 768px) {
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
     .sidebar {
-        width: 200px;
+      position: relative;
+      width: 100%;
+      height: auto;
+      padding: 10px;
+      box-shadow: none;
     }
-
+  
+    .sidebar ul {
+      display: flex;
+      justify-content: space-around;
+    }
+  
+    .sidebar ul li {
+      margin: 0;
+    }
+  
     .sidebar ul li a {
-        font-size: 16px;
+      font-size: 16px;
+      padding: 10px;
     }
-}
+  }
+  

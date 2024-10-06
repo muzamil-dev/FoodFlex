@@ -1,0 +1,31 @@
+/* MainLayout.css */
+
+.main-layout {
+    display: flex;
+    margin-left: 100px;
+  }
+  
+  .sidebar {
+    width: 200px;        /* Width of the sidebar */
+    flex-shrink: 0;      /* Prevent the sidebar from shrinking */
+  }
+  
+  .main-content {
+    flex-grow: 1;        /* Allow the main content to grow */
+    padding: 20px;       /* Optional padding */
+  }
+  
+  @media (max-width: 768px) {
+    .main-layout {
+      flex-direction: column;
+    }
+  
+    .sidebar {
+      width: 100%;
+    }
+  
+    .main-content {
+      padding: 10px;
+    }
+  }
+  

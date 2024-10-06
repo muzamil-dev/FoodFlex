@@ -1,7 +1,7 @@
 // MainLayout.js
 import React from 'react';
 import Sidebar from './Sidebar';
-import '../styles/HomePage.css';  // Import your styles here
+import '../styles/MainLayout.css';  // Import your styles here
 
 const MainLayout = ({ children }) => {
   return (
